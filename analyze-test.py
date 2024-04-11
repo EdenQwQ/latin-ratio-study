@@ -63,9 +63,9 @@ def build_lr(file):
 # build_lr("scopus-asia-2017")
 # build_lr("scopus-us-2017")
 
-with open("../exp-music/latin_ratio/2020.json", "r") as f:
+with open("./2020-music.json", "r") as f:
     musiclr = json.load(f)
-with open("../exp-music/latin_ratio/2020-rap-song.json", "r") as f:
+with open("./2020-rap-song.json", "r") as f:
     raplr = json.load(f)
 
 music = pd.DataFrame()
@@ -234,9 +234,7 @@ dfasia2020["Cited by n"] = (
 dfasia2023["Cited by n"] = (
     dfasia2023["Cited by"] - dfasia2023["Cited by"].mean()
 ) / dfasia2023["Cited by"].std()
-df["Cited by n"] = (df["Cited by"] - df["Cited by"].mean()) / df["Cited by"].std()
 
-print(stats.pearsonr(df["Cited by n"], df["LatinRatio"]))
 print("us 2017")
 print(stats.pearsonr(dfus2017["Cited by n"], dfus2017["Latin Ratio"]))
 print("us 2020")
@@ -249,12 +247,3 @@ print("asia 2020")
 print(stats.pearsonr(dfasia2020["Cited by n"], dfasia2020["Latin Ratio"]))
 print("asia 2023")
 print(stats.pearsonr(dfasia2023["Cited by n"], dfasia2023["Latin Ratio"]))
-
-fig = plt.figure(figsize=(6, 6))
-sns.scatterplot(data=df, y="Cited by n", x="LatinRatio", hue="Region", alpha=0.5)
-plt.ylim(min(df["Cited by n"]), 2)
-plt.savefig("latin_ratio_citedby.pdf")
-
-fig = plt.figure(figsize=(6, 6))
-sns.barplot(data=df, x="Region", y="Cited by", capsize=0.1)
-plt.savefig("citedby_us_vs_asia.pdf")
